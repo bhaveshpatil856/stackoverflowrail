@@ -30,18 +30,6 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-// function createData(name, calories, fat) {
-//   return { name, calories, fat };
-// }
-
-// const rows = [
-//   createData("Frozen yoghurt", 159, 6.0),
-//   createData("Ice cream sandwich", 237, 9.0),
-//   createData("Eclair", 262, 16.0),
-//   createData("Cupcake", 305, 3.7),
-//   createData("Gingerbread", 356, 16.0),
-// ];
-
 const StackOverFlowRail = () => {
   const classes = useStyles();
 
