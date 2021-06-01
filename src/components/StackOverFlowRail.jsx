@@ -3,7 +3,6 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
@@ -64,7 +63,6 @@ const StackOverFlowRail = () => {
       const res = await axios.get(
         "https://api.stackexchange.com/2.2/search/advanced?page=1&pagesize=20&order=desc&sort=activity&site=stackoverflow"
       );
-      console.log(res);
       const array = [];
       res.data.items &&
         res.data.items.length > 0 &&
@@ -89,15 +87,18 @@ const StackOverFlowRail = () => {
         variant="outlined"
         elevation={10}
         style={{
-          margin: "20px",
+          margin: "10px 15px 10px 15px",
           border: "2px solid black",
           borderRadius: "10px",
-          overflow: "hidden",
         }}
       >
         {rows ? (
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
+          <div>
+            <Table
+              className={classes.table}
+              aria-label="simple table"
+              stickyHeader
+            >
               <TableHead
                 style={{
                   borderBottom: "2px solid black",
@@ -129,39 +130,54 @@ const StackOverFlowRail = () => {
                   </StyledTableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
-                {rows.map((row, i) => (
-                  <TableRow
-                    key={i}
-                    style={{
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleClickOpen(row)}
-                  >
-                    <TableCell>
-                      {row.Author}
-                      {/* {row.name} */}
-                    </TableCell>
-                    <TableCell align="center">
-                      {row.Title}
-                      {/* {row.fat} */}
-                    </TableCell>
-                    <TableCell>
-                      {/* {row.calories} */}
-                      {DateFormat(
-                        row.creationDate * 1000,
-                        "ddd,dS mmm , yyyy, h:MM:ss TT"
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
             </Table>
-          </TableContainer>
+            <div style={{ overflow: "auto", height: "500px" }}>
+              <Table style={{ tableLayout: "fixed" }}>
+                <TableBody>
+                  {rows.map((row, i) => (
+                    <TableRow
+                      key={i}
+                      style={{
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleClickOpen(row)}
+                    >
+                      <TableCell
+                        style={{
+                          width: "20%",
+                        }}
+                      >
+                        {row.Author}
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          width: "60%",
+                        }}
+                        align="center"
+                      >
+                        {row.Title}
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          width: "20%",
+                        }}
+                      >
+                        {DateFormat(
+                          row.creationDate * 1000,
+                          "ddd,dS mmm , yyyy, h:MM:ss TT"
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </div>
         ) : (
           ""
         )}
       </Paper>
+
       {selected && (
         <Dialog
           open={open}
@@ -172,8 +188,6 @@ const StackOverFlowRail = () => {
           <DialogTitle id="alert-dialog-title">Title</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              {/* {selected.name}
-              <br /> */}
               {selected.Title} <br />
               <a href={selected.ansLink} target="_blank" rel="noreferrer">
                 Open in new tab
@@ -182,7 +196,7 @@ const StackOverFlowRail = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
-              Cancle
+              Cancel
             </Button>
           </DialogActions>
         </Dialog>
